@@ -1,7 +1,11 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { Link } from 'react-router'
+
+import reactLogo from '../assets/images/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import firebaseLogo from "../assets/images/firebase.webp"
+
+import '../assets/styles/App.css'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -28,6 +32,18 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <div>
+        <Link to={"/details"}>
+          <img src={firebaseLogo} alt="Firebase logo"
+            style={{
+              width: '300px',
+            }} />
+          <p
+          style={{
+            color: "white",
+          }}>See details</p>
+        </Link>
+      </div>
     </>
   )
 }
