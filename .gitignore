@@ -1,3 +1,8 @@
+# Manually added ignores
+capacitor.config.ts
+ios/
+android/
+
 # Logs
 logs
 *.log
