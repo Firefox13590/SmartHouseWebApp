@@ -4,6 +4,8 @@ ios/
 android/
 *.jks
 *.apk
+firebase.json
+npx
 
 # Logs
 logs

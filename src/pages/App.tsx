@@ -1,49 +1,41 @@
-import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 
-import reactLogo from '../assets/images/react.svg'
-import viteLogo from '/vite.svg'
-import firebaseLogo from "../assets/images/firebase.webp"
+import firebaseLogo from "../assets/images/firebase.webp";
+import settingsIcon from "../assets/images/settings.png";
+import graphIcon from "../assets/images/graph.png";
 
-import '../assets/styles/App.css'
+import '../assets/styles/App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <div>
-        <Link to={"/details"}>
-          <img src={firebaseLogo} alt="Firebase logo"
-            style={{
-              width: '300px',
-            }} />
-          <p
-          style={{
-            color: "white",
-          }}>See details</p>
-        </Link>
-      </div>
+    <h1>Smart House Web App</h1>
+
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "100px",
+
+      marginTop: "100px",
+    }}>
+      <Link to={"/controls"} className='home-link'>
+        <img src={settingsIcon} alt="Settings icon" className='link-icon dark'/>
+        <p>Set settings</p>
+      </Link>
+
+      <Link to={"/details"} className='home-link'>
+        <img src={graphIcon} alt="Graph icon" className='link-icon dark'/>
+        <p>See graphs</p>
+      </Link>
+
+      <Link to={"/assistant"} className='home-link'>
+        <img src={firebaseLogo} alt="Firebase logo" className='link-icon'/>
+        <p>Open Assistant</p>
+      </Link>
+    </div>
     </>
   )
 }
