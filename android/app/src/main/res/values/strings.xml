@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Smart House App</string>
-    <string name="title_activity_main">Smart House App</string>
-    <string name="package_name">com.lrima.smarthouseapp</string>
-    <string name="custom_url_scheme">com.lrima.smarthouseapp</string>
-</resources>
