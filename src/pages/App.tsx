@@ -6,6 +6,8 @@ import graphIcon from "../assets/images/graph.png";
 
 import '../assets/styles/App.css';
 
+
+
 function App() {
   return (
     <>

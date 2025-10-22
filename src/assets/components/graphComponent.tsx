@@ -1,7 +1,7 @@
 import { Chart } from "chart.js/auto";
 import { useEffect, useRef } from "react";
 
-import type { DataCollection } from "../../pages/Details";
+import type { DataCollection } from "./interfaces";
 
 
 export default function Graph(props: any){
@@ -10,7 +10,7 @@ export default function Graph(props: any){
     //     keys: [""],
     //     values: [0],
     // };
-    const data = props.object as (DataCollection)[];
+    const data = props.object as DataCollection[];
     // const 
     // dataKeys = Object.keys(data.dataValues) ?? [],
     // dataValues = Object.values(data.dataValues).map(v => Number(v)) ?? [];
@@ -19,7 +19,7 @@ export default function Graph(props: any){
 
     useEffect(() => {
         chartSetup(props.id, data);
-    }, [props.id, data]);
+    });
 
 
     const chartSetup = (id: string, data: (DataCollection)[]) => {

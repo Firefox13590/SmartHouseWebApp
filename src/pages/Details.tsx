@@ -2,23 +2,15 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+
 import type { DocumentData, Firestore } from "firebase/firestore/lite";
+import type { DataCollection, IotObject } from "../assets/components/interfaces";
 
 import firebaseJson from "../assets/others/firebase.json";
+import "./../assets/styles/Details.css";
 
 import Graph from "../assets/components/graphComponent";
 
-
-export interface DataCollection {
-    dataName: string,
-    dataValues: (string | number)[],
-}
-interface IotObject {
-    dbAccess: string,
-    name: string,
-    type: string,
-    trackedData: DataCollection[],
-}
 
 
 export default function Details() {
@@ -48,11 +40,43 @@ export default function Details() {
 
     return(
         <>
+        <Link to={"/"} className="back2home">&lt; Home</Link>
+
         {data === null ? (
+            <>
             <h1>Loading</h1>
+            <div
+            style={{
+                width: "300px",
+                height: "300px",
+                margin: "auto",
+                position: "relative",
+
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "start",
+            }}>
+                {[...Array(5)].map((_, i) => (
+                    <div key={i}
+                    style={{
+                        width: "30px",
+                        height: "30px",
+                        backgroundColor: "#fff",
+                        // backgroundImage: `linear-gradient(white, #${graphsColor[i]})`,
+                        borderRadius: "50%",
+
+                        position: "absolute",
+                        animation: "loading-animation 1s infinite",
+                        animationDelay: `${i * 0.1}s`,
+                        transformOrigin: "center 150px",
+                    }}></div>
+                ))}
+            </div>
+            </>
+
         ) : (
             <>
-            <Link to={"/"} className="back2home">&lt; Home</Link>
+            {/* <Link to={"/"} className="back2home">&lt; Home</Link> */}
 
             <div
             style={{

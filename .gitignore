@@ -1,7 +1,8 @@
-# Manually added ignores
+# My ignores
 capacitor.config.ts
 ios/
 android/
+public/
 *.jks
 *.apk
 firebase.json

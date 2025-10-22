@@ -16,7 +16,7 @@
 
 
 /* details page */
-.home-link{
+/* .home-link{
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
@@ -34,13 +34,25 @@
 }
 .link-icon.dark{
   filter: invert(1);
-}
+} */
 
 
 /* controls page */
-.input-display{
+/* .input-display{
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
+} */
+
+/* #config-alarm div div{
+  padding: 5px;
+  background-color: #242424;
 }
+#config-alarm div div:hover{
+  cursor: pointer;
+}
+#config-alarm div div.active{
+  background-color: rgb(0, 128, 255);
+} */
+ 
