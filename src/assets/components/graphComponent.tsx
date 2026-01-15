@@ -1,29 +1,33 @@
-import { Chart } from "chart.js/auto";
+import { Chart, Colors } from "chart.js/auto";
 import { useEffect, useRef } from "react";
 
-import type { DataCollection } from "./interfaces";
+import type { IDataCollection, IGraphProperties } from "./interfaces";
+import type { ChartDataset } from "chart.js/auto";
 
 
-export default function Graph(props: any){
-    // const data: {object: any, keys: (string)[], values: (number)[]} = {
-    //     object: null,
-    //     keys: [""],
-    //     values: [0],
-    // };
-    const data = props.object as DataCollection[];
-    // const 
-    // dataKeys = Object.keys(data.dataValues) ?? [],
-    // dataValues = Object.values(data.dataValues).map(v => Number(v)) ?? [];
+export default function Graph(props: IGraphProperties){
     const chartRef = useRef<Chart | null>(null);
+
+    const dateFormatOptions: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        // weekday: 'short',
+        hour: 'numeric',
+        minute: 'numeric',
+    }
+    const intlDateFormater = new Intl.DateTimeFormat(undefined, dateFormatOptions);
 
 
     useEffect(() => {
-        chartSetup(props.id, data);
+        // console.log(props);
+        Chart.register(Colors);
+        chartSetup(props.id, props.data);
     });
 
 
-    const chartSetup = (id: string, data: (DataCollection)[]) => {
-        // console.log(dataKeys, dataValues);
+    const chartSetup = (id: string, data: IDataCollection[]) => {
+        // console.log(id, data);
 
         // Détruire l'ancien graphique s'il existe
         if (chartRef.current) {
@@ -32,27 +36,34 @@ export default function Graph(props: any){
 
         const ctx = document.getElementById(id) as HTMLCanvasElement;
         if (ctx) {
-            const values: any[] = [];
-            data.forEach((data: DataCollection, index: number) => {
-                values.push({
-                    label: data.dataName,
-                    backgroundColor: props.color[index],
-                    borderColor: `${props.color[index]}1`,
-                    data: data.dataValues,
+            const chartLabels: string[] = [];
+            const chartDataset: ChartDataset[] = [];
+
+            data.forEach((entry: IDataCollection/* , index: number */) => {
+                console.log("data collection entry: ", entry);
+                entry.dataTimestamps.sort((a, b) => a.toMillis() - b.toMillis());
+
+                if(chartLabels.length < 1){
+                    entry.dataTimestamps.forEach(elem => {
+                        // console.log(elem);
+                        // console.log(elem.toDate());
+                        // console.log(intlDateFormater.format(elem.toDate()));
+                        chartLabels.push(intlDateFormater.format(elem.toDate()));
+                    });
+                }
+                // console.log(chartLabels);
+
+                chartDataset.push({
+                    label: entry.dataName,
+                    data: entry.dataValues,
                 });
             });
 
             chartRef.current = new Chart(ctx, {
                 type: "line",
                 data: {
-                    labels: Object.keys(data[0].dataValues),
-                    // datasets: [{
-                    //     label: data.dataName,
-                    //     backgroundColor: props.color,
-                    //     borderColor: `${props.color}1`,
-                    //     data: dataValues,
-                    // }],
-                    datasets: values,
+                    labels: chartLabels,
+                    datasets: chartDataset,
                 },
             });
         }
@@ -70,13 +81,13 @@ export default function Graph(props: any){
     return(
         <div
         style={{
-            backgroundColor: props.display === "condensed" ? "#333" : props.color,
-            border:props.display === "condensed" ? "1px solid white" : "none" ,
+            backgroundColor: "#333",
+            border: "1px solid white",
             borderRadius: "20px",
             margin: "25px 10px",
             padding: "10px",
         }}>
-            <h3>{props.display === "condensed" ? "Data" : data[0].dataName.toUpperCase()}</h3>
+            <h3>{props.graphDisplay === "condensed" ? "Data" : props.data[0].dataName.toUpperCase()}</h3>
             <div 
             style={{
                 width: "300px",

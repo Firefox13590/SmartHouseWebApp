@@ -23,7 +23,7 @@ function App() {
 
       marginTop: "100px",
     }}>
-      <Link to={"/controls"} className='home-link'>
+      <Link to={"/settings"} className='home-link'>
         <img src={settingsIcon} alt="Settings icon" className='link-icon dark'/>
         <p>Set settings</p>
       </Link>

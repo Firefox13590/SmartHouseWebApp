@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import './assets/styles/index.css';
 
 import App from './pages/App.tsx';
-import Controls from './pages/Controls.tsx';
+import Settings from './pages/Settings.tsx';
 import Details from './pages/Details.tsx';
 import Assistant from './pages/Assistant.tsx';
 
@@ -47,7 +47,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App/>}/>
-        <Route path='/controls' element={<Controls/>}/>
+        <Route path='/settings' element={<Settings/>}/>
         <Route path='/details' element={<Details/>}/>
         <Route path='/assistant' element={<Assistant/>}/>
       </Routes>

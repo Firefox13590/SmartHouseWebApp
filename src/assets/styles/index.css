@@ -71,3 +71,17 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+/* animations */
+
+@keyframes loading-animation {
+  from{
+    transform: rotate(0);
+  }
+  
+  to{
+    transform: rotate(360deg);
+  }
+}
+
