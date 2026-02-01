@@ -8,7 +8,6 @@ import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IData
 
 import firebaseJson from "../assets/others/firebase.json";
 import "./../assets/styles/Details.css";
-
 import Graph from "../assets/components/graphComponent";
 
 

@@ -52,3 +52,14 @@ export declare interface IGraphProperties{
     graphDisplay: string,
 }
 
+
+
+export declare interface IControlsConfig{
+    alarm: boolean,
+    dataCaptureTimer: {
+        hour: number,
+        minute: number
+    }
+}
+
+

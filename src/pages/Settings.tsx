@@ -3,38 +3,21 @@ import { Link } from "react-router";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc } from "firebase/firestore/lite";
-// import { Capacitor } from "@capacitor/core";
 
-// import type { ControlsConfig } from "../assets/components";
+import type { IControlsConfig } from "../assets/components/interfaces";
 
 import "./../assets/styles/Controls.css";
-// import configJson from "./../assets/others/config.json";
 import firebaseJson from "../assets/others/firebase.json";
 
 
-interface controlsConfig{
-    alarm: boolean,
-    dataCaptureTimer: {
-        hour: number,
-        minute: number
-    }
-}
-
 
 export default function Settings() {
-    // const [configData, setConfigData] = useState<controlsConfig>({
-    //     alarm: false,
-    //     dataCaptureTimer: {
-    //         hour: 2,
-    //         minute: 0
-    //     }
-    // });
-    const [configData, setConfigData] = useState<controlsConfig | null>(null);
+    const [configData, setConfigData] = useState<IControlsConfig | null>(null);
 
 
     useEffect(() => {
         // console.log(getConfigData());
-        const conf: controlsConfig = {
+        const conf: IControlsConfig = {
             alarm: false,
             dataCaptureTimer: {hour: 2, minute: 0}
         };
@@ -44,7 +27,7 @@ export default function Settings() {
         readOut
             .then((rep) => {
                 // console.log(rep);
-                const repConv = JSON.parse(rep) as controlsConfig;
+                const repConv = JSON.parse(rep) as IControlsConfig;
                 // console.log(repConv);
                 // setConfigData(repConv);
                 for(const prop in repConv){
@@ -104,12 +87,12 @@ export default function Settings() {
                     alarm: false,
                     dataCaptureTimer: { hour: 2, minute: 0 },
                     [property]: value
-                } as controlsConfig;
+                } as IControlsConfig;
             }
             return {
                 ...prevState,
                 [property]: value
-            } as controlsConfig;
+            } as IControlsConfig;
         });
         // console.log(property, value);
         // console.log(configData);

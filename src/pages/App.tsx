@@ -33,9 +33,9 @@ function App() {
         <p>See graphs</p>
       </Link>
 
-      <Link to={"/assistant"} className='home-link'>
+      <Link to={"/modules"} className='home-link'>
         <img src={firebaseLogo} alt="Firebase logo" className='link-icon'/>
-        <p>Open Assistant</p>
+        <p>See Modules</p>
       </Link>
     </div>
     </>
