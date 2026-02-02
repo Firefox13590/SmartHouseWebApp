@@ -29,10 +29,10 @@ export default function Settings() {
                 // console.log(rep);
                 const repConv = JSON.parse(rep) as IControlsConfig;
                 // console.log(repConv);
-                // setConfigData(repConv);
-                for(const prop in repConv){
-                    conf[prop] = repConv[prop];
-                }
+                setConfigData(repConv);
+                // for(const prop in repConv){
+                //     conf[prop] = repConv[prop];
+                // }
             })
             .catch((err) => console.error(err));
         
@@ -97,7 +97,7 @@ export default function Settings() {
         // console.log(property, value);
         // console.log(configData);
 
-        // write file in app data folder
+        // Ecriture dans dans le dossier data de l'app
         await writeData('config.json', JSON.stringify(configData, null, 4));
     }
 
@@ -112,6 +112,7 @@ export default function Settings() {
 
         return readData;
     }
+
 
 
     return(
@@ -171,14 +172,14 @@ export default function Settings() {
                         // padding: "5px",
                         overflow: "hidden",
                     }}>
-                        <div className={configData?.alarm ? "active" : ""}
+                        <div className={configData.alarm ? "active" : ""}
                         onClick={() => updateConfigData("alarm", true)}>
                             {/* <input type="radio" name="alarm" id="alarm-on" value="on" />
                             <label htmlFor="alarm-on">On</label> */}
                             ON
                         </div>
 
-                        <div className={configData?.alarm ? "" : "active"}
+                        <div className={configData.alarm ? "" : "active"}
                         onClick={() => updateConfigData("alarm", false)}>
                             {/* <input type="radio" name="alarm" id="alarm-off" value="off" defaultChecked />
                             <label htmlFor="alarm-off">Off</label> */}
@@ -195,10 +196,10 @@ export default function Settings() {
                         display: "flex",
                         gap: "5px",
                     }}>
-                        <select name="select-hour" id="select-hour" defaultValue={configData?.dataCaptureTimer.hour}
+                        <select name="select-hour" id="select-hour" value={configData.dataCaptureTimer.hour}
                         // onChange={(e) => updateConfigData("dataCaptureTimer.hour", (e.target as HTMLSelectElement).value)}>
                         onChange={async(e) => {
-                            if(configData?.dataCaptureTimer !== null && configData?.dataCaptureTimer !== undefined){
+                            if(configData.dataCaptureTimer !== null && configData.dataCaptureTimer !== undefined){
                                 const config = {
                                     ...configData,
                                     dataCaptureTimer: {
@@ -206,12 +207,12 @@ export default function Settings() {
                                         hour: Number(e.target.value)
                                     }
                                 };
-                                console.log(Number(e.target.value));
+                                // console.log(Number(e.target.value));
                                 setConfigData(config);
                                 await writeData('config.json', JSON.stringify(config, null, 4));
                             }
                         }}>
-                        <option value={0}>0</option>
+                            <option value={0}>0</option>
                             <option value={1}>1</option>
                             <option value={2}>2</option>
                             <option value={4}>4</option>
@@ -223,10 +224,10 @@ export default function Settings() {
                         </select>
                         <label htmlFor="select-hour">h</label>
 
-                        <select name="select-minute" id="select-minute" defaultValue={configData?.dataCaptureTimer.minute}
+                        <select name="select-minute" id="select-minute" value={configData.dataCaptureTimer.minute}
                         // onChange={(e) => updateConfigData("dataCaptureTimer.minute", (e.target as HTMLSelectElement).value)}>
                         onChange={async(e) => {
-                            if(configData?.dataCaptureTimer !== null && configData?.dataCaptureTimer !== undefined){
+                            if(configData.dataCaptureTimer !== null && configData.dataCaptureTimer !== undefined){
                                 const config = {
                                     ...configData,
                                     dataCaptureTimer: {
@@ -234,12 +235,12 @@ export default function Settings() {
                                         minute: Number(e.target.value)
                                     }
                                 };
-                                console.log(Number(e.target.value));
+                                // console.log(Number(e.target.value));
                                 setConfigData(config);
                                 await writeData('config.json', JSON.stringify(config, null, 4));
                             }
                         }}>
-                        <option value={0}>0</option>
+                            <option value={0}>0</option>
                             {/* <option value={15}>15</option> */}
                             <option value={30}>30</option>
                         </select>

@@ -1,28 +1,39 @@
-// Firebase related definitions
-
 import type { DocumentReference, Timestamp } from "firebase/firestore/lite";
 
 
+
+
+
+/* 
+        Definitions pour Firebase
+*/
+
+/**
+ * Liste de {@link IDataCollection}.
+ */
 export declare interface IDataCollectionArray{
     dataCollections: IDataCollection[],
 }
 /**
- * Type of data tracked by an IoTObject element.
+ * Type de donnée trackée par un élément {@link IIotObject}.
  * 
- * Holds information about data over time like temperature.
+ * Responsable des données sur la durée (ex: température).
  */
 export declare interface IDataCollection {
     dataName: string,
     dataValues: number[],
     dataTimestamps: Timestamp[],
 }
+/**
+ * Liste de {@link IDataState}.
+ */
 export declare interface IDataStateArray{
     dataStates: IDataState[],
 }
 /**
- * Type of data tracked by an IoTObject element.
+ * Type de donnée trackée par un élément {@link IIotObject}.
  * 
- * holds information about the current state of data like a door.
+ * Responsable des données d'état (ex: porte ouverte/fermée).
  */
 export declare interface IDataState {
     dataName: string,
@@ -30,21 +41,32 @@ export declare interface IDataState {
 }
 
 /**
- * Representation of an IoT element like a Smarthouse.
+ * Un objet IoT comme une maison intelligente.
  */
 export declare interface IIotObject {
     name: string,
     dataCollectionsRef?: DocumentReference,
     dataStatesRef?: DocumentReference,
 }
+/**
+ * Les données associées à un objet {@link IIotObject}.
+ */
 export declare interface IIotData{
     dataCollectionArray?: IDataCollectionArray,
     dataStateArray?: IDataStateArray,
 }
 
 
-// Components related interfaces
 
+
+
+/* 
+        Définitions pour les composants
+*/
+
+/**
+ * Propriétés pour le composant Graph.
+ */
 export declare interface IGraphProperties{
     id: string,
     // key: string,
@@ -54,6 +76,15 @@ export declare interface IGraphProperties{
 
 
 
+
+
+/* 
+        Autres définitions
+*/
+
+/**
+ * Configuration des contrôles d'un objet {@link IIotObject}.
+ */
 export declare interface IControlsConfig{
     alarm: boolean,
     dataCaptureTimer: {

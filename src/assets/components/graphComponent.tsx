@@ -39,6 +39,7 @@ export default function Graph(props: IGraphProperties){
             const chartLabels: string[] = [];
             const chartDataset: ChartDataset[] = [];
 
+            // Traitement des données pour les adapter au format Chart.js
             data.forEach((entry: IDataCollection/* , index: number */) => {
                 console.log("data collection entry: ", entry);
                 entry.dataTimestamps.sort((a, b) => a.toMillis() - b.toMillis());
@@ -59,6 +60,7 @@ export default function Graph(props: IGraphProperties){
                 });
             });
 
+            // Creation d'un nouveau graphique avec les nouvelles données
             chartRef.current = new Chart(ctx, {
                 type: "line",
                 data: {

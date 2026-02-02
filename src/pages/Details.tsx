@@ -39,14 +39,6 @@ export default function Details() {
                     // console.log("data states: ", stateData);
                     setIotData({dataStateArray: stateData});
                 }
-                // setIotData({
-                //     dataCollectionList: iotObj?.dataCollectionsRef !== undefined ?
-                //         (await getDoc(doc(db, iotObj.dataCollectionsRef.path))).data() as IDataCollectionList :
-                //         undefined,
-                //     dataStateList: iotObj?.dataStatesRef !== undefined ?
-                //         (await getDoc(doc(db, iotObj.dataStatesRef.path))).data() as IDataStateList :
-                //         undefined,
-                // });
             }
         }
     
