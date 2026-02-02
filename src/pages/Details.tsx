@@ -4,11 +4,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from "firebase/firestore/lite";
 
 import type { Firestore } from "firebase/firestore/lite";
-import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateArray } from "../assets/components/interfaces";
+import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateArray, IDataState } from "../assets/components/interfaces";
 
 import firebaseJson from "../assets/others/firebase.json";
 import "./../assets/styles/Details.css";
 import Graph from "../assets/components/graphComponent";
+import LightIcon from "../assets/images/ampoule.png";
 
 
 
@@ -32,12 +33,18 @@ export default function Details() {
                 if(snapData.dataCollectionsRef !== undefined){
                     const collectionData = (await getDoc(doc(db, snapData.dataCollectionsRef.path))).data() as IDataCollectionArray;
                     // console.log("data collections: ", collectionData);
-                    setIotData({dataCollectionArray: collectionData});
+                    setIotData((prev) => ({
+                        ...prev,
+                        dataCollectionArray: collectionData
+                    }));
                 }
                 if(snapData.dataStatesRef !== undefined){
                     const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateArray;
                     // console.log("data states: ", stateData);
-                    setIotData({dataStateArray: stateData});
+                    setIotData((prev) => ({
+                        ...prev,
+                        dataStateArray: stateData
+                    }));
                 }
             }
         }
@@ -149,7 +156,33 @@ export default function Details() {
 
                 {iotData.dataStateArray !== undefined ? (
                     <>
-                    <div>insert data state</div>
+                    {/* <div>insert data state</div> */}
+                    <div
+                    style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "space-evenly",
+                        gap: "5vw"
+                    }}>
+                        {iotData.dataStateArray.dataStates.map((elem: IDataState, index: number) => (
+                            <div
+                            key={"state-" + index}
+                            style={{
+                                border: "1px solid grey",
+                                borderRadius: "10px",
+                                width: "40vw"
+                            }}>
+                                <h4
+                                style={{
+                                    textTransform: "capitalize",
+                                }}>
+                                    {elem.dataName.replace("_", " - ")}
+                                </h4>
+                                {/* <img src={LightIcon} alt="" style={{filter: "invert(1)"}}/> */}
+                                <img src={LightIcon} className={`link-icon light ${elem.dataState ? "on" : "off"}`}/>
+                            </div>
+                        ))}
+                    </div>
                     </>
                 ) : (
                     <h4>No data state tracked currently</h4>

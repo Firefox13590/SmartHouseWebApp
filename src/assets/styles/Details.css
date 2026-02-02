@@ -37,3 +37,14 @@
 }
 
 
+
+
+
+.light.off{
+  filter: grayscale(1);
+}
+.light.on{
+  filter: invert(1);
+}
+
+

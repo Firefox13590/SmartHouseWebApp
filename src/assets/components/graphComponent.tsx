@@ -41,7 +41,7 @@ export default function Graph(props: IGraphProperties){
 
             // Traitement des données pour les adapter au format Chart.js
             data.forEach((entry: IDataCollection/* , index: number */) => {
-                console.log("data collection entry: ", entry);
+                // console.log("data collection entry: ", entry);
                 entry.dataTimestamps.sort((a, b) => a.toMillis() - b.toMillis());
 
                 if(chartLabels.length < 1){
