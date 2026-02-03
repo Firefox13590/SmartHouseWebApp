@@ -26,6 +26,7 @@ a:hover {
 
 body {
   padding-top: env(safe-area-inset-top, 24px);
+  padding-bottom: env(safe-area-inset-bottom, 48px);
   box-sizing: border-box;
 
   margin: 0;
