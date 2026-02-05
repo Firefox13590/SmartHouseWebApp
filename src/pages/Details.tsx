@@ -179,7 +179,7 @@ export default function Details() {
                                     {elem.dataName.replace("_", " - ")}
                                 </h4>
                                 {/* <img src={LightIcon} alt="" style={{filter: "invert(1)"}}/> */}
-                                <img src={LightIcon} className={`link-icon light ${elem.dataState ? "on" : "off"}`}/>
+                                <img src={LightIcon} className={`link-icon light ${elem.dataState ? "active" : ""}`}/>
                             </div>
                         ))}
                     </div>

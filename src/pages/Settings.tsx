@@ -12,7 +12,15 @@ import firebaseJson from "../assets/others/firebase.json";
 
 
 export default function Settings() {
-    const [configData, setConfigData] = useState<IControlsConfig | null>(null);
+    // const [configData, setConfigData] = useState<IControlsConfig | null>(null);
+    const [configData, setConfigData] = useState<IControlsConfig>({
+        alarm: false,
+        dataCaptureTimer: {
+            hour: 2,
+            minute: 0
+        }    
+    });
+
 
 
     useEffect(() => {
@@ -30,15 +38,13 @@ export default function Settings() {
                 const repConv = JSON.parse(rep) as IControlsConfig;
                 // console.log(repConv);
                 setConfigData(repConv);
-                // for(const prop in repConv){
-                //     conf[prop] = repConv[prop];
-                // }
             })
             .catch((err) => console.error(err));
         
         // console.log(conf);
         setConfigData(conf);
     }, [setConfigData]);
+
 
 
     const resetConfig = async() => {
@@ -77,28 +83,34 @@ export default function Settings() {
 
         const app = initializeApp(firebaseJson.config);
         const db = getFirestore(app);
+        // console.log("configData before db write: ", configData);
         await setDoc(doc(db, "smartHouseTest", firebaseJson.docAccess.config), configData);
     }
 
     const updateConfigData = async(property: string, value: unknown) => {
-        setConfigData((prevState) => {
-            if (prevState === null) {
-                return {
-                    alarm: false,
-                    dataCaptureTimer: { hour: 2, minute: 0 },
-                    [property]: value
-                } as IControlsConfig;
-            }
-            return {
-                ...prevState,
-                [property]: value
-            } as IControlsConfig;
-        });
+        // setConfigData((prevState) => {
+        //     if (prevState === null) {
+        //         return {
+        //             alarm: false,
+        //             dataCaptureTimer: { hour: 2, minute: 0 },
+        //             [property]: value
+        //         } as IControlsConfig;
+        //     }
+        //     return {
+        //         ...prevState,
+        //         [property]: value
+        //     } as IControlsConfig;
+        // });
+        const config: IControlsConfig = {
+            ...configData,
+            [property]: value
+        };
+        setConfigData(config);
         // console.log(property, value);
         // console.log(configData);
 
-        // Ecriture dans dans le dossier data de l'app
-        await writeData('config.json', JSON.stringify(configData, null, 4));
+        // ecriture dans dossier data
+        await writeData('config.json', JSON.stringify(config, null, 4));
     }
 
     const getConfigData = async() => {
@@ -161,7 +173,7 @@ export default function Settings() {
                 <div id="config-alarm" className="input-display">
                     <p>Set alarm system: </p>
 
-                    <div
+                    {/* <div
                     style={{
                         display: "flex",
                         gap: "1px",
@@ -174,18 +186,29 @@ export default function Settings() {
                     }}>
                         <div className={configData.alarm ? "active" : ""}
                         onClick={() => updateConfigData("alarm", true)}>
-                            {/* <input type="radio" name="alarm" id="alarm-on" value="on" />
-                            <label htmlFor="alarm-on">On</label> */}
+                            <input type="radio" name="alarm" id="alarm-on" value="on" />
+                            <label htmlFor="alarm-on">On</label>
                             ON
                         </div>
 
                         <div className={configData.alarm ? "" : "active"}
                         onClick={() => updateConfigData("alarm", false)}>
-                            {/* <input type="radio" name="alarm" id="alarm-off" value="off" defaultChecked />
-                            <label htmlFor="alarm-off">Off</label> */}
+                            <input type="radio" name="alarm" id="alarm-off" value="off" defaultChecked />
+                            <label htmlFor="alarm-off">Off</label>
                             OFF
                         </div>
-                    </div>
+                    </div> */}
+
+                    <input type="checkbox" name="alarm" id="alarm" checked={configData.alarm}
+                    /* onChange={async(e) => {
+                        const config = {
+                            ...configData,
+                            alarm: e.target.checked
+                        };
+                        setConfigData(config);
+                        await writeData('config.json', JSON.stringify(config, null, 4));
+                    }} */
+                    onChange={async(e) => updateConfigData("alarm", e.target.checked)}/>
                 </div>
 
                 <div id="config-capture-timer" className="input-display">

@@ -29,7 +29,7 @@ export default function Graph(props: IGraphProperties){
     const chartSetup = (id: string, data: IDataCollection[]) => {
         // console.log(id, data);
 
-        // Détruire l'ancien graphique s'il existe
+        // detruire ancien graphique s'il existe
         if (chartRef.current) {
             chartRef.current.destroy();
         }
@@ -39,7 +39,7 @@ export default function Graph(props: IGraphProperties){
             const chartLabels: string[] = [];
             const chartDataset: ChartDataset[] = [];
 
-            // Traitement des données pour les adapter au format Chart.js
+            // traitement donnees pour adaptation format Chart.js
             data.forEach((entry: IDataCollection/* , index: number */) => {
                 // console.log("data collection entry: ", entry);
                 entry.dataTimestamps.sort((a, b) => a.toMillis() - b.toMillis());
@@ -60,7 +60,7 @@ export default function Graph(props: IGraphProperties){
                 });
             });
 
-            // Creation d'un nouveau graphique avec les nouvelles données
+            // creation nouveau graphique avec nouvelles donnees
             chartRef.current = new Chart(ctx, {
                 type: "line",
                 data: {
@@ -70,7 +70,7 @@ export default function Graph(props: IGraphProperties){
             });
         }
 
-        // Nettoyage lors du démontage du composant
+        // nettoyage lors démontage composant
         return () => {
             if (chartRef.current) {
                 chartRef.current.destroy();

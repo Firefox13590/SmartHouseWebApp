@@ -40,11 +40,8 @@
 
 
 
-.light.off{
-  filter: grayscale(1);
-}
-.light.on{
-  filter: invert(1);
+.light.active{
+  background-image: radial-gradient(yellow 0, transparent 70%);
 }
 
 
