@@ -6,7 +6,7 @@ import { getFirestore, setDoc, doc } from "firebase/firestore/lite";
 
 import type { IControlsConfig } from "../assets/components/interfaces";
 
-import "./../assets/styles/Controls.css";
+import "./../assets/styles/Settings.css";
 import firebaseJson from "../assets/others/firebase.json";
 
 

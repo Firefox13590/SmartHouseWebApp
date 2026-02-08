@@ -5,14 +5,14 @@ import type { DocumentReference, Timestamp } from "firebase/firestore/lite";
 
 
 /* 
-        Definitions pour Firebase
+        Définitions pour Firebase
 */
 
 /**
  * Liste de {@link IDataCollection}.
  */
 export declare interface IDataCollectionArray{
-    dataCollections: IDataCollection[],
+    dataCollections: IDataCollection[]
 }
 /**
  * Type de donnée trackée par un élément {@link IIotObject}.
@@ -22,13 +22,13 @@ export declare interface IDataCollectionArray{
 export declare interface IDataCollection {
     dataName: string,
     dataValues: number[],
-    dataTimestamps: Timestamp[],
+    dataTimestamps: Timestamp[]
 }
 /**
  * Liste de {@link IDataState}.
  */
 export declare interface IDataStateArray{
-    dataStates: IDataState[],
+    dataStates: IDataState[]
 }
 /**
  * Type de donnée trackée par un élément {@link IIotObject}.
@@ -37,7 +37,7 @@ export declare interface IDataStateArray{
  */
 export declare interface IDataState {
     dataName: string,
-    dataState: boolean,
+    dataState: boolean
 }
 
 /**
@@ -46,14 +46,14 @@ export declare interface IDataState {
 export declare interface IIotObject {
     name: string,
     dataCollectionsRef?: DocumentReference,
-    dataStatesRef?: DocumentReference,
+    dataStatesRef?: DocumentReference
 }
 /**
  * Les données associées à un objet {@link IIotObject}.
  */
 export declare interface IIotData{
     dataCollectionArray?: IDataCollectionArray,
-    dataStateArray?: IDataStateArray,
+    dataStateArray?: IDataStateArray
 }
 
 
@@ -67,11 +67,14 @@ export declare interface IIotData{
 /**
  * Propriétés pour le composant Graph.
  */
-export declare interface IGraphProperties{
+export declare interface IGraphProp{
     id: string,
-    // key: string,
     data: IDataCollection[],
-    graphDisplay: string,
+    graphDisplay: string
+}
+export declare interface IToggleProp{
+    data: IDataState,
+    index: number
 }
 
 

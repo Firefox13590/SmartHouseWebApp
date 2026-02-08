@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import firebaseLogo from "../assets/images/firebase.webp";
+import moduleLogo from "../assets/images/cube.png";
 import settingsIcon from "../assets/images/settings.png";
 import graphIcon from "../assets/images/graph.png";
 
@@ -24,17 +24,17 @@ function App() {
       marginTop: "100px",
     }}>
       <Link to={"/settings"} className='home-link'>
-        <img src={settingsIcon} alt="Settings icon" className='link-icon dark'/>
+        <img src={settingsIcon} alt="Settings icon" className='link-icon'/>
         <p>Set settings</p>
       </Link>
 
       <Link to={"/details"} className='home-link'>
-        <img src={graphIcon} alt="Graph icon" className='link-icon dark'/>
-        <p>See graphs</p>
+        <img src={graphIcon} alt="Graph icon" className='link-icon'/>
+        <p>See data</p>
       </Link>
 
       <Link to={"/modules"} className='home-link'>
-        <img src={firebaseLogo} alt="Firebase logo" className='link-icon'/>
+        <img src={moduleLogo} alt="Firebase logo" className='link-icon'/>
         <p>See Modules</p>
       </Link>
     </div>

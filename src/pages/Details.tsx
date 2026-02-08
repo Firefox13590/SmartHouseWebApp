@@ -9,7 +9,7 @@ import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IData
 import firebaseJson from "../assets/others/firebase.json";
 import "./../assets/styles/Details.css";
 import Graph from "../assets/components/graphComponent";
-import LightIcon from "../assets/images/ampoule.png";
+import Toggle from "../assets/components/toggleComponent";
 
 
 
@@ -18,38 +18,9 @@ export default function Details() {
     const [iotData, setIotData] = useState<IIotData | null>(null);
     const [graphDisplay, setGraphDisplay] = useState("separated");
 
-    // const graphsColor = ["080", "00f", "f00", "880", "088", "808"];
 
 
     useEffect(() => {
-        const getDbData = async(db: Firestore) => {
-            const docRef = doc(db, "smartHouseTest", firebaseJson.docAccess.main);
-            const docSnap = await getDoc(docRef);
-            if(docSnap.exists()){
-                const snapData = docSnap.data() as IIotObject;
-                // console.log("document data: ", snapData);
-                setIotObj(snapData);
-
-                if(snapData.dataCollectionsRef !== undefined){
-                    const collectionData = (await getDoc(doc(db, snapData.dataCollectionsRef.path))).data() as IDataCollectionArray;
-                    // console.log("data collections: ", collectionData);
-                    setIotData((prev) => ({
-                        ...prev,
-                        dataCollectionArray: collectionData
-                    }));
-                }
-                if(snapData.dataStatesRef !== undefined){
-                    const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateArray;
-                    // console.log("data states: ", stateData);
-                    setIotData((prev) => ({
-                        ...prev,
-                        dataStateArray: stateData
-                    }));
-                }
-            }
-        }
-    
-
         // console.log(firebaseJson.config);
         const app = initializeApp(firebaseJson.config);
         const db = getFirestore(app);
@@ -57,6 +28,47 @@ export default function Details() {
 
         getDbData(db);
     }, []);
+
+
+
+    const getDbData = async(db: Firestore) => {
+        const docRef = doc(db, "smartHouseTest", firebaseJson.docAccess.main);
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()){
+            const snapData = docSnap.data() as IIotObject;
+            // console.log("document data: ", snapData);
+            setIotObj(snapData);
+
+            if(snapData.dataCollectionsRef !== undefined){
+                const collectionData = (await getDoc(doc(db, snapData.dataCollectionsRef.path))).data() as IDataCollectionArray;
+                // console.log("data collections: ", collectionData);
+                setIotData((prev) => ({
+                    ...prev,
+                    dataCollectionArray: collectionData
+                }));
+            }
+            if(snapData.dataStatesRef !== undefined){
+                const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateArray;
+                // console.log("data states: ", stateData);
+                setIotData((prev) => ({
+                    ...prev,
+                    dataStateArray: stateData
+                }));
+            }
+        }
+    }
+
+    const refresh = () => {
+        setIotObj(null);
+
+        // console.log(firebaseJson.config);
+        const app = initializeApp(firebaseJson.config);
+        const db = getFirestore(app);
+        // console.log(db);
+
+        getDbData(db);
+    }
+
 
 
     return(
@@ -97,8 +109,6 @@ export default function Details() {
 
         ) : (
             <>
-            {/* <Link to={"/"} className="back2home">&lt; Home</Link> */}
-
             <div
             style={{
                 backgroundColor: "#fff1",
@@ -123,6 +133,8 @@ export default function Details() {
                         <option value="condensed">Condensed</option>
                     </select>
                 </label>
+
+                <button onClick={refresh}>Refresh</button>
             </div>
 
             {iotData === null ? (
@@ -130,7 +142,8 @@ export default function Details() {
             ) : (
                 <>
                 {iotData.dataCollectionArray !== undefined ? (
-                    <>
+                    // dc for data collection
+                    <div className="dc-container">
                     {graphDisplay === "separated" ? (
                         <>
                         {iotData.dataCollectionArray.dataCollections.map((elem: IDataCollection, index: number) => (
@@ -138,49 +151,37 @@ export default function Details() {
                             data={[elem]}
                             graphDisplay={graphDisplay}
                             id={`chart-${index}`}
-                            key={`chart-${index}`}></Graph>
+                            key={`chart-${index}`}/>
                         ))}
-                        {/* <Graph color="green" object={data.trackedData[0]}></Graph> */}
                         </>
                     ) : (
                         <Graph 
                         data={iotData.dataCollectionArray.dataCollections}
                         graphDisplay={graphDisplay}
                         id={'chart-1'}
-                        key={'chart-1'}></Graph>
+                        key={'chart-1'}/>
                     )}
-                    </>
+                    </div>
                 ) : (
                     <h4>No data collection tracked currently</h4>
                 )}
 
                 {iotData.dataStateArray !== undefined ? (
                     <>
-                    {/* <div>insert data state</div> */}
-                    <div
+                    {/* ds for data state */}
+                    <div className="ds-container"
                     style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        justifyContent: "space-evenly",
-                        gap: "5vw"
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        justifyItems: "center",
+                        rowGap: "10vw"
                     }}>
                         {iotData.dataStateArray.dataStates.map((elem: IDataState, index: number) => (
-                            <div
-                            key={"state-" + index}
-                            style={{
-                                border: "1px solid grey",
-                                borderRadius: "10px",
-                                width: "40vw"
-                            }}>
-                                <h4
-                                style={{
-                                    textTransform: "capitalize",
-                                }}>
-                                    {elem.dataName.replace("_", " - ")}
-                                </h4>
-                                {/* <img src={LightIcon} alt="" style={{filter: "invert(1)"}}/> */}
-                                <img src={LightIcon} className={`link-icon light ${elem.dataState ? "active" : ""}`}/>
-                            </div>
+                            <Toggle
+                            key={`toggle-${index}`}
+                            data={elem}
+                            index={index}
+                            />
                         ))}
                     </div>
                     </>

@@ -1,47 +1,8 @@
 
-/* animations */
-
-/* @keyframes loading-animation {
-  from{
-    transform: rotate(0);
-  }
-  
-  to{
-    transform: rotate(360deg);
-  }
-} */
-
-
-
-
-/* styles */
-
-.home-link{
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  align-items: center;
-  gap: 50px;
-
-  border: 1px solid #ddd;
-  border-radius: 50px;
-  padding: 12px 24px;
-  width: 300px;
-}
-
-.link-icon{
+.ds-item .light{
   width: 100px;
 }
-.link-icon.dark{
-  filter: invert(1);
-}
-
-
-
-
 
 .light.active{
   background-image: radial-gradient(yellow 0, transparent 70%);
 }
-
-

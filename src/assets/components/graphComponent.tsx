@@ -1,11 +1,11 @@
 import { Chart, Colors } from "chart.js/auto";
 import { useEffect, useRef } from "react";
 
-import type { IDataCollection, IGraphProperties } from "./interfaces";
+import type { IDataCollection, IGraphProp } from "./interfaces";
 import type { ChartDataset } from "chart.js/auto";
 
 
-export default function Graph(props: IGraphProperties){
+export default function Graph(props: IGraphProp){
     const chartRef = useRef<Chart | null>(null);
 
     const dateFormatOptions: Intl.DateTimeFormatOptions = {
@@ -81,13 +81,13 @@ export default function Graph(props: IGraphProperties){
 
 
     return(
-        <div
+        <div className="dc-item"
         style={{
             backgroundColor: "#333",
             border: "1px solid white",
             borderRadius: "20px",
             margin: "25px 10px",
-            padding: "10px",
+            paddingBottom: "20px",
         }}>
             <h3>{props.graphDisplay === "condensed" ? "Data" : props.data[0].dataName.toUpperCase()}</h3>
             <div 
