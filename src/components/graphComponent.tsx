@@ -1,7 +1,7 @@
 import { Chart, Colors } from "chart.js/auto";
 import { useEffect, useRef } from "react";
 
-import type { IDataCollection, IGraphProp } from "./interfaces";
+import type { IDataCollection, IGraphProp } from "../definitions/interfaces";
 import type { ChartDataset } from "chart.js/auto";
 
 

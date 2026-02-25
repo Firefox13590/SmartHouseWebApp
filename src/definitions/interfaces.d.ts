@@ -12,7 +12,7 @@ import type { DocumentReference, Timestamp } from "firebase/firestore/lite";
  * Liste de {@link IDataCollection}.
  */
 export declare interface IDataCollectionArray{
-    dataCollections: IDataCollection[]
+    dataCollections: IDataCollection[],
 }
 /**
  * Type de donnée trackée par un élément {@link IIotObject}.
@@ -22,13 +22,15 @@ export declare interface IDataCollectionArray{
 export declare interface IDataCollection {
     dataName: string,
     dataValues: number[],
-    dataTimestamps: Timestamp[]
+    dataTimestamps: Timestamp[],
 }
 /**
  * Liste de {@link IDataState}.
  */
-export declare interface IDataStateArray{
-    dataStates: IDataState[]
+export declare interface IDataStateMap{
+    // dataStates: IDataState[],
+    // dataStates: {[dataName: string]: IDataState},
+    dataStates: Record<string, IDataState>,
 }
 /**
  * Type de donnée trackée par un élément {@link IIotObject}.
@@ -36,8 +38,9 @@ export declare interface IDataStateArray{
  * Responsable des données d'état (ex: porte ouverte/fermée).
  */
 export declare interface IDataState {
-    dataName: string,
-    dataState: boolean
+    // dataName: string,
+    // dataState: boolean,
+    [dataName: string]: boolean,
 }
 
 /**
@@ -46,14 +49,15 @@ export declare interface IDataState {
 export declare interface IIotObject {
     name: string,
     dataCollectionsRef?: DocumentReference,
-    dataStatesRef?: DocumentReference
+    dataStatesRef?: DocumentReference,
+    configRef?: DocumentReference,
 }
 /**
  * Les données associées à un objet {@link IIotObject}.
  */
 export declare interface IIotData{
     dataCollectionArray?: IDataCollectionArray,
-    dataStateArray?: IDataStateArray
+    dataStateArray?: IDataStateMap,
 }
 
 
@@ -70,11 +74,10 @@ export declare interface IIotData{
 export declare interface IGraphProp{
     id: string,
     data: IDataCollection[],
-    graphDisplay: string
+    graphDisplay: string,
 }
 export declare interface IToggleProp{
     data: IDataState,
-    index: number
 }
 
 

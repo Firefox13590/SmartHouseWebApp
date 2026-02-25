@@ -4,10 +4,10 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc } from "firebase/firestore/lite";
 
-import type { IControlsConfig } from "../assets/components/interfaces";
+import type { IControlsConfig } from "../definitions/interfaces";
 
-import "./../assets/styles/Settings.css";
-import firebaseJson from "../assets/others/firebase.json";
+import "./Settings.css";
+import firebaseJson from "../assets/data/firebase.json";
 
 
 

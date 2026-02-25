@@ -4,7 +4,7 @@ import moduleLogo from "../assets/images/cube.png";
 import settingsIcon from "../assets/images/settings.png";
 import graphIcon from "../assets/images/graph.png";
 
-import '../assets/styles/App.css';
+import './App.css';
 
 
 

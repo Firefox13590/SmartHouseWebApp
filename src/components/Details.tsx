@@ -4,12 +4,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from "firebase/firestore/lite";
 
 import type { Firestore } from "firebase/firestore/lite";
-import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateArray, IDataState } from "../assets/components/interfaces";
+import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateMap, IDataState } from "../definitions/interfaces";
 
-import firebaseJson from "../assets/others/firebase.json";
-import "./../assets/styles/Details.css";
-import Graph from "../assets/components/graphComponent";
-import Toggle from "../assets/components/toggleComponent";
+import firebaseJson from "../assets/data/firebase.json";
+import "./Details.css";
+import Graph from "./graphComponent";
+import Toggle from "./toggleComponent";
 
 
 
@@ -48,8 +48,11 @@ export default function Details() {
                 }));
             }
             if(snapData.dataStatesRef !== undefined){
-                const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateArray;
-                // console.log("data states: ", stateData);
+                const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateMap;
+                console.log("data states: ", stateData);
+                console.log(Object.entries(stateData));
+                console.log(Object.entries(stateData.dataStates));
+                console.log(Object.entries(stateData.dataStates).map(el => el[0]));
                 setIotData((prev) => ({
                     ...prev,
                     dataStateArray: stateData
@@ -176,11 +179,18 @@ export default function Details() {
                         justifyItems: "center",
                         rowGap: "10vw"
                     }}>
-                        {iotData.dataStateArray.dataStates.map((elem: IDataState, index: number) => (
+                        {/* {Object.entries(iotData.dataStateArray.dataStates).map(el => (
+                            <Toggle 
+                            key={el[0]}
+                            id={el[0]}
+                            value={el[1][el[0]]}
+                            />
+                        ))} */}
+                        {Object.entries(iotData.dataStateArray.dataStates).map(([key, value]) => (
                             <Toggle
-                            key={`toggle-${index}`}
-                            data={elem}
-                            index={index}
+                            key={key}
+                            // data={{[key]: value}}
+                            data={value}
                             />
                         ))}
                     </div>
