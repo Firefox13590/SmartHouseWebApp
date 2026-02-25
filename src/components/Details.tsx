@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDoc, doc } from "firebase/firestore/lite";
+import { getFirestore, getDoc, doc, collection, getDocs } from "firebase/firestore/lite";
 
 import type { Firestore } from "firebase/firestore/lite";
 import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateMap, IDataState } from "../definitions/interfaces";
@@ -22,7 +22,7 @@ export default function Details() {
 
     useEffect(() => {
         // console.log(firebaseJson.config);
-        const app = initializeApp(firebaseJson.config);
+        const app = initializeApp(firebaseJson);
         const db = getFirestore(app);
         // console.log(db);
 
@@ -32,10 +32,15 @@ export default function Details() {
 
 
     const getDbData = async(db: Firestore) => {
-        const docRef = doc(db, "smartHouseTest", firebaseJson.docAccess.main);
-        const docSnap = await getDoc(docRef);
-        if(docSnap.exists()){
-            const snapData = docSnap.data() as IIotObject;
+        const col = collection(db, 'smartHouseTest');
+        const colSnap = await getDocs(col);
+        const mainDoc = colSnap.docs[colSnap.docs.length - 1];
+        // console.log(mainDoc.data());
+
+        // const docRef = doc(db, "smartHouseTest", firebaseJson.docAccess.main);
+        // const docSnap = await getDoc(docRef);
+        if(mainDoc.exists()){
+            const snapData = mainDoc.data() as IIotObject;
             // console.log("document data: ", snapData);
             setIotObj(snapData);
 
@@ -50,9 +55,7 @@ export default function Details() {
             if(snapData.dataStatesRef !== undefined){
                 const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateMap;
                 console.log("data states: ", stateData);
-                console.log(Object.entries(stateData));
-                console.log(Object.entries(stateData.dataStates));
-                console.log(Object.entries(stateData.dataStates).map(el => el[0]));
+                // console.log(Object.entries(stateData));
                 setIotData((prev) => ({
                     ...prev,
                     dataStateArray: stateData
@@ -65,7 +68,7 @@ export default function Details() {
         setIotObj(null);
 
         // console.log(firebaseJson.config);
-        const app = initializeApp(firebaseJson.config);
+        const app = initializeApp(firebaseJson);
         const db = getFirestore(app);
         // console.log(db);
 
@@ -186,11 +189,14 @@ export default function Details() {
                             value={el[1][el[0]]}
                             />
                         ))} */}
-                        {Object.entries(iotData.dataStateArray.dataStates).map(([key, value]) => (
+                        {Object.entries(iotData.dataStateArray).map(([key, value]) => (
                             <Toggle
                             key={key}
                             // data={{[key]: value}}
-                            data={value}
+                            // data={value}
+                            {...{[key]: value}}
+                            // name={key}
+                            // value={value}
                             />
                         ))}
                     </div>

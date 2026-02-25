@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { initializeApp } from "firebase/app";
-import { getFirestore, setDoc, doc } from "firebase/firestore/lite";
+import { getFirestore, setDoc, doc, getDocs, collection } from "firebase/firestore/lite";
 
-import type { IControlsConfig } from "../definitions/interfaces";
+import type { IControlsConfig, IIotObject } from "../definitions/interfaces";
 
 import "./Settings.css";
 import firebaseJson from "../assets/data/firebase.json";
@@ -18,7 +18,7 @@ export default function Settings() {
         dataCaptureTimer: {
             hour: 2,
             minute: 0
-        }    
+        },
     });
 
 
@@ -27,7 +27,7 @@ export default function Settings() {
         // console.log(getConfigData());
         const conf: IControlsConfig = {
             alarm: false,
-            dataCaptureTimer: {hour: 2, minute: 0}
+            dataCaptureTimer: {hour: 2, minute: 0},
         };
 
         const readOut = getConfigData();
@@ -81,10 +81,14 @@ export default function Settings() {
         }
         // console.log(await getConfigData());
 
-        const app = initializeApp(firebaseJson.config);
+        const app = initializeApp(firebaseJson);
         const db = getFirestore(app);
         // console.log("configData before db write: ", configData);
-        await setDoc(doc(db, "smartHouseTest", firebaseJson.docAccess.config), configData);
+        // await setDoc(doc(db, "smartHouseTest", firebaseJson.docAccess.config), configData);
+        const col = collection(db, 'smartHouseTest');
+        const colSnap = await getDocs(col);
+        const mainDoc = colSnap.docs[colSnap.docs.length - 1];
+        await setDoc(doc(db, "smartHouseTest", (mainDoc.data() as IIotObject).configRef.path), configData);
     }
 
     const updateConfigData = async(property: string, value: unknown) => {

@@ -30,7 +30,8 @@ export declare interface IDataCollection {
 export declare interface IDataStateMap{
     // dataStates: IDataState[],
     // dataStates: {[dataName: string]: IDataState},
-    dataStates: Record<string, IDataState>,
+    // dataStates: Record<string, IDataState>,
+    [dataName: string]: IDataState,
 }
 /**
  * Type de donnée trackée par un élément {@link IIotObject}.
@@ -50,7 +51,7 @@ export declare interface IIotObject {
     name: string,
     dataCollectionsRef?: DocumentReference,
     dataStatesRef?: DocumentReference,
-    configRef?: DocumentReference,
+    configRef: DocumentReference,
 }
 /**
  * Les données associées à un objet {@link IIotObject}.
@@ -77,7 +78,9 @@ export declare interface IGraphProp{
     graphDisplay: string,
 }
 export declare interface IToggleProp{
-    data: IDataState,
+    // name: string,
+    // value: boolean,
+    [name: string]: IDataState,
 }
 
 

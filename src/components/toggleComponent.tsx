@@ -3,8 +3,11 @@ import type { IDataState, IToggleProp } from "../definitions/interfaces";
 import LightIcon from "../assets/images/ampoule.png";
 
 
-export default function Toggle(props: IToggleProp){
+export default function Toggle(props: IDataState){
+    const [name, value] = Object.entries(props);
+
     console.log(props);
+    console.log(name, value);
 
 
     return(
