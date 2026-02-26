@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc, collection, getDocs } from "firebase/firestore/lite";
 
 import type { Firestore } from "firebase/firestore/lite";
-import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateMap, IDataState } from "../definitions/interfaces";
+import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateMap } from "../definitions/interfaces";
 
 import firebaseJson from "../assets/data/firebase.json";
 import "./Details.css";
@@ -54,11 +54,11 @@ export default function Details() {
             }
             if(snapData.dataStatesRef !== undefined){
                 const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateMap;
-                console.log("data states: ", stateData);
+                // console.log("data states: ", stateData);
                 // console.log(Object.entries(stateData));
                 setIotData((prev) => ({
                     ...prev,
-                    dataStateArray: stateData
+                    dataStateMap: stateData
                 }));
             }
         }
@@ -172,7 +172,7 @@ export default function Details() {
                     <h4>No data collection tracked currently</h4>
                 )}
 
-                {iotData.dataStateArray !== undefined ? (
+                {iotData.dataStateMap !== undefined ? (
                     <>
                     {/* ds for data state */}
                     <div className="ds-container"
@@ -189,16 +189,13 @@ export default function Details() {
                             value={el[1][el[0]]}
                             />
                         ))} */}
-                        {Object.entries(iotData.dataStateArray).map(([key, value]) => (
+                        {Object.entries(iotData.dataStateMap).map(([key, value]) => 
                             <Toggle
                             key={key}
-                            // data={{[key]: value}}
-                            // data={value}
-                            {...{[key]: value}}
-                            // name={key}
-                            // value={value}
+                            name={key}
+                            value={value}
                             />
-                        ))}
+                        )}
                     </div>
                     </>
                 ) : (

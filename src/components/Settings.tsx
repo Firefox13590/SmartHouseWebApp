@@ -88,7 +88,7 @@ export default function Settings() {
         const col = collection(db, 'smartHouseTest');
         const colSnap = await getDocs(col);
         const mainDoc = colSnap.docs[colSnap.docs.length - 1];
-        await setDoc(doc(db, "smartHouseTest", (mainDoc.data() as IIotObject).configRef.path), configData);
+        await setDoc(doc(db, (mainDoc.data() as IIotObject).configRef.path), configData);
     }
 
     const updateConfigData = async(property: string, value: unknown) => {

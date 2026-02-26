@@ -23,13 +23,13 @@ export default function Graph(props: IGraphProp){
         // console.log(props);
         Chart.register(Colors);
         chartSetup(props.id, props.data);
-    });
+    }, []);
 
 
     const chartSetup = (id: string, data: IDataCollection[]) => {
         // console.log(id, data);
 
-        // detruire ancien graphique s'il existe
+        // Destroy previous chart if it exists to prevent memory leaks and ensure proper cleanup
         if (chartRef.current) {
             chartRef.current.destroy();
         }
@@ -39,7 +39,7 @@ export default function Graph(props: IGraphProp){
             const chartLabels: string[] = [];
             const chartDataset: ChartDataset[] = [];
 
-            // traitement donnees pour adaptation format Chart.js
+            // Data processing to adapt to Chart.js format
             data.forEach((entry: IDataCollection/* , index: number */) => {
                 // console.log("data collection entry: ", entry);
                 entry.dataTimestamps.sort((a, b) => a.toMillis() - b.toMillis());
@@ -60,7 +60,7 @@ export default function Graph(props: IGraphProp){
                 });
             });
 
-            // creation nouveau graphique avec nouvelles donnees
+            // Create a new chart instance with the updated data
             chartRef.current = new Chart(ctx, {
                 type: "line",
                 data: {
@@ -70,7 +70,7 @@ export default function Graph(props: IGraphProp){
             });
         }
 
-        // nettoyage lors démontage composant
+        // Cleanup function to destroy the chart instance when the component unmounts or when the chart needs to be re-rendered with new data
         return () => {
             if (chartRef.current) {
                 chartRef.current.destroy();

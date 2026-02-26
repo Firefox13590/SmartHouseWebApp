@@ -1,13 +1,10 @@
-import type { IDataState, IToggleProp } from "../definitions/interfaces";
+import type { IToggleProp } from "../definitions/interfaces";
 
 import LightIcon from "../assets/images/ampoule.png";
 
 
-export default function Toggle(props: IDataState){
-    const [name, value] = Object.entries(props);
-
-    console.log(props);
-    console.log(name, value);
+export default function Toggle(props: IToggleProp){
+    // console.log(props.name, props.value);
 
 
     return(
@@ -22,11 +19,12 @@ export default function Toggle(props: IDataState){
             style={{
                 textTransform: "capitalize",
             }}>
-                {/* {props.id.replace("_", " - ")} */}
-                e
+                {props.name.replace("_", " - ")}
             </h4>
-            {/* <img src={LightIcon} className={`${props.id.split('_')[0]} ${props.value ? "active" : ""}`}/> */}
-            <img src={LightIcon} className='light'/>
+            <img
+            src={LightIcon}
+            className={`${props.name.split("_")[0]} ${props.value ? "active" : ""}`}
+            />
         </div>
     )
 }

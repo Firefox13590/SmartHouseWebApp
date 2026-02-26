@@ -2,99 +2,101 @@ import type { DocumentReference, Timestamp } from "firebase/firestore/lite";
 
 
 
-
-
 /* 
-        Définitions pour Firebase
+            Firebase related custom data structure definitions
 */
 
 /**
  * Liste de {@link IDataCollection}.
  */
-export declare interface IDataCollectionArray{
+interface IDataCollectionArray{
     dataCollections: IDataCollection[],
 }
 /**
- * Type de donnée trackée par un élément {@link IIotObject}.
+ * Tracked by an {@link IIotObject} element. 
  * 
- * Responsable des données sur la durée (ex: température).
+ * Data structure responsible for time-based data (e.g. temperature).
  */
-export declare interface IDataCollection {
+interface IDataCollection {
     dataName: string,
     dataValues: number[],
     dataTimestamps: Timestamp[],
 }
 /**
- * Liste de {@link IDataState}.
- */
-export declare interface IDataStateMap{
-    // dataStates: IDataState[],
-    // dataStates: {[dataName: string]: IDataState},
-    // dataStates: Record<string, IDataState>,
-    [dataName: string]: IDataState,
-}
-/**
- * Type de donnée trackée par un élément {@link IIotObject}.
+ * Map of state data, with the data name as key and its value as boolean.
  * 
- * Responsable des données d'état (ex: porte ouverte/fermée).
+ * Tracked by an {@link IIotObject} element.
+ * 
+ * @param dataName Name of the state data (e.g. "door_open").
+ * @param dataState Current value of the state (true/false).
  */
-export declare interface IDataState {
-    // dataName: string,
-    // dataState: boolean,
-    [dataName: string]: boolean,
+interface IDataStateMap{
+    [dataName: string]: TDataState,
 }
 
 /**
- * Un objet IoT comme une maison intelligente.
+ * An IoT object such as a smart home.
+ * 
+ * Holds references to its data and configuration in the database.
  */
-export declare interface IIotObject {
+interface IIotObject {
     name: string,
     dataCollectionsRef?: DocumentReference,
     dataStatesRef?: DocumentReference,
     configRef: DocumentReference,
 }
 /**
- * Les données associées à un objet {@link IIotObject}.
+ * Data linked to an {@link IIotObject}, retrieved from the database. 
+ * 
+ * Contains both time-based data and state data.
  */
-export declare interface IIotData{
+interface IIotData{
     dataCollectionArray?: IDataCollectionArray,
-    dataStateArray?: IDataStateMap,
+    dataStateMap?: IDataStateMap,
 }
 
 
 
-
-
 /* 
-        Définitions pour les composants
+            Component props definitions
 */
 
 /**
- * Propriétés pour le composant Graph.
+ * Graph component props definition.
+ * 
+ * @param id Unique identifier for the graph.
+ * @param data Array of {@link IDataCollection} to be displayed.
+ * @param graphDisplay Display mode for the graph (e.g. "separated", "combined").
  */
-export declare interface IGraphProp{
+interface IGraphProp{
     id: string,
     data: IDataCollection[],
     graphDisplay: string,
 }
-export declare interface IToggleProp{
-    // name: string,
-    // value: boolean,
-    [name: string]: IDataState,
+/**
+ * Toggle component props definition.
+ * 
+ * @param name Name of the state being toggled (e.g. "door_open").
+ * @param value Current value of the state (true/false).
+ */
+interface IToggleProp{
+    name: string,
+    value: boolean,
 }
 
 
 
-
-
 /* 
-        Autres définitions
+            Others
 */
 
 /**
- * Configuration des contrôles d'un objet {@link IIotObject}.
+ * Config for an {@link IIotObject}.
+ * 
+ * @param alarm Whether the alarm is active or not.
+ * @param dataCaptureTimer Time between each data capture, with hour and minute fields.
  */
-export declare interface IControlsConfig{
+interface IControlsConfig{
     alarm: boolean,
     dataCaptureTimer: {
         hour: number,
