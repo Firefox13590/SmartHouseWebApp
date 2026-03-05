@@ -4,19 +4,20 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc, collection, getDocs } from "firebase/firestore/lite";
 
 import type { Firestore } from "firebase/firestore/lite";
-import type { IDataCollection, IIotObject, IIotData, IDataCollectionArray, IDataStateMap } from "../definitions/interfaces";
+import type { IIotObject, IIotData, IAllDataCollections, IAllDataStates } from "../definitions/interfaces";
 
 import firebaseJson from "../assets/data/firebase.json";
 import "./Details.css";
 import Graph from "./graphComponent";
 import Toggle from "./toggleComponent";
+import type { GraphDisplay } from "../definitions/types";
 
 
 
 export default function Details() {
     const [iotObj, setIotObj] = useState<IIotObject | null>(null);
     const [iotData, setIotData] = useState<IIotData | null>(null);
-    const [graphDisplay, setGraphDisplay] = useState("separated");
+    const [graphDisplay, setGraphDisplay] = useState<GraphDisplay>("separated");
 
 
 
@@ -45,20 +46,20 @@ export default function Details() {
             setIotObj(snapData);
 
             if(snapData.dataCollectionsRef !== undefined){
-                const collectionData = (await getDoc(doc(db, snapData.dataCollectionsRef.path))).data() as IDataCollectionArray;
-                // console.log("data collections: ", collectionData);
+                const collectionData = (await getDoc(doc(db, snapData.dataCollectionsRef.path))).data() as IAllDataCollections;
+                console.log("data collections: ", collectionData);
                 setIotData((prev) => ({
                     ...prev,
-                    dataCollectionArray: collectionData
+                    dataCollections: collectionData
                 }));
             }
             if(snapData.dataStatesRef !== undefined){
-                const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IDataStateMap;
+                const stateData = (await getDoc(doc(db, snapData.dataStatesRef.path))).data() as IAllDataStates;
                 // console.log("data states: ", stateData);
                 // console.log(Object.entries(stateData));
                 setIotData((prev) => ({
                     ...prev,
-                    dataStateMap: stateData
+                    dataStates: stateData
                 }));
             }
         }
@@ -134,7 +135,7 @@ export default function Details() {
                 <label className="input-display">
                     <p>Graph display: </p>
                     <select defaultValue="separated"
-                    onChange={(e) => {setGraphDisplay(e.target.value)}}>
+                    onChange={(e) => {setGraphDisplay(e.target.value as GraphDisplay)}}>
                         <option value="separated">Separated</option>
                         <option value="condensed">Condensed</option>
                     </select>
@@ -147,22 +148,23 @@ export default function Details() {
                 <h4>No data tracked currently</h4>
             ) : (
                 <>
-                {iotData.dataCollectionArray !== undefined ? (
+                {iotData.dataCollections !== undefined ? (
                     // dc for data collection
                     <div className="dc-container">
                     {graphDisplay === "separated" ? (
                         <>
-                        {iotData.dataCollectionArray.dataCollections.map((elem: IDataCollection, index: number) => (
+                        {Object.entries(iotData.dataCollections).map(dc => (
                             <Graph 
-                            data={[elem]}
+                            key={dc[0]}
+                            id={`chart-${dc[0]}`}
+                            data={[dc]}
                             graphDisplay={graphDisplay}
-                            id={`chart-${index}`}
-                            key={`chart-${index}`}/>
+                            />
                         ))}
                         </>
                     ) : (
                         <Graph 
-                        data={iotData.dataCollectionArray.dataCollections}
+                        data={Object.entries(iotData.dataCollections)}
                         graphDisplay={graphDisplay}
                         id={'chart-1'}
                         key={'chart-1'}/>
@@ -172,7 +174,7 @@ export default function Details() {
                     <h4>No data collection tracked currently</h4>
                 )}
 
-                {iotData.dataStateMap !== undefined ? (
+                {iotData.dataStates !== undefined ? (
                     <>
                     {/* ds for data state */}
                     <div className="ds-container"
@@ -182,14 +184,7 @@ export default function Details() {
                         justifyItems: "center",
                         rowGap: "10vw"
                     }}>
-                        {/* {Object.entries(iotData.dataStateArray.dataStates).map(el => (
-                            <Toggle 
-                            key={el[0]}
-                            id={el[0]}
-                            value={el[1][el[0]]}
-                            />
-                        ))} */}
-                        {Object.entries(iotData.dataStateMap).map(([key, value]) => 
+                        {Object.entries(iotData.dataStates).map(([key, value]) => 
                             <Toggle
                             key={key}
                             name={key}

@@ -1,8 +1,0 @@
-
-.ds-item .light{
-  width: 100px;
-}
-
-.light.active{
-  background-image: radial-gradient(yellow 0, transparent 70%);
-}

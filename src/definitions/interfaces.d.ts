@@ -1,4 +1,5 @@
-import type { DocumentReference, Timestamp } from "firebase/firestore/lite";
+import type { DocumentReference } from "firebase/firestore/lite";
+import type { DataCollection } from "./types";
 
 
 
@@ -7,31 +8,24 @@ import type { DocumentReference, Timestamp } from "firebase/firestore/lite";
 */
 
 /**
- * Liste de {@link IDataCollection}.
- */
-interface IDataCollectionArray{
-    dataCollections: IDataCollection[],
-}
-/**
- * Tracked by an {@link IIotObject} element. 
- * 
- * Data structure responsible for time-based data (e.g. temperature).
- */
-interface IDataCollection {
-    dataName: string,
-    dataValues: number[],
-    dataTimestamps: Timestamp[],
-}
-/**
- * Map of state data, with the data name as key and its value as boolean.
+ * Holds all data collections linked to an {@link IIotObject}, with the data name as key and its value as an array of timestamps and values.
  * 
  * Tracked by an {@link IIotObject} element.
  * 
- * @param dataName Name of the state data (e.g. "door_open").
- * @param dataState Current value of the state (true/false).
+ * @param dataName Name of the data collection (e.g. "temperature").
  */
-interface IDataStateMap{
-    [dataName: string]: TDataState,
+interface IAllDataCollections{
+    [dataName: string]: DataCollection,
+}
+/**
+ * Holds all data states, with the data name as key and its value as boolean.
+ * 
+ * Tracked by an {@link IIotObject} element.
+ * 
+ * @param dataName Name of the state data (e.g. "light_bathroom").
+ */
+interface IAllDataStates{
+    [dataName: string]: DataState,
 }
 
 /**
@@ -51,8 +45,8 @@ interface IIotObject {
  * Contains both time-based data and state data.
  */
 interface IIotData{
-    dataCollectionArray?: IDataCollectionArray,
-    dataStateMap?: IDataStateMap,
+    dataCollections?: IAllDataCollections,
+    dataStates?: IAllDataStates,
 }
 
 
@@ -65,13 +59,13 @@ interface IIotData{
  * Graph component props definition.
  * 
  * @param id Unique identifier for the graph.
- * @param data Array of {@link IDataCollection} to be displayed.
+ * @param data Array of data collections, with the data name as key and its value as an array of timestamps and values.
  * @param graphDisplay Display mode for the graph (e.g. "separated", "combined").
  */
 interface IGraphProp{
     id: string,
-    data: IDataCollection[],
-    graphDisplay: string,
+    data: [string, DataCollection][],
+    graphDisplay: GraphDisplay,
 }
 /**
  * Toggle component props definition.

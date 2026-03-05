@@ -1,0 +1,60 @@
+.ds-item {
+  border: 1px solid grey;
+  border-radius: 10px;
+  width: 40vw;
+
+  h4{
+    text-transform: capitalize;
+  }
+
+  input[type='checkbox']{
+    display: none;
+  }
+
+  label{
+    display: inline-block;
+    width: 30vw;
+    height: 10vw;
+    background-color: darkgrey;
+    border-radius: 30px;
+    margin: 2vw;
+    margin-bottom: 5vw;
+
+    position: relative;
+
+    transition: background-color .5s;
+
+    cursor: pointer;
+
+    div{
+      width: 12.5vw;
+      height: 12.5vw;
+      background-color: grey;
+      border-radius: 50%;
+
+      position: absolute;
+      left: -5%;
+      bottom: -12.5%;
+
+      transition-property: background-color, left;
+      transition-duration: .5s;
+    }
+  }
+  input[type='checkbox']:checked ~ label{
+    background-color: lightblue;
+
+    div{
+      background-color: blue;
+
+      left: 65%;
+    }
+  }
+
+  /* .light {
+    width: 100px;
+  }
+
+  .light.active {
+    background-image: radial-gradient(yellow 0, transparent 70%);
+  } */
+}
